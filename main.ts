@@ -1,21 +1,9 @@
-let x = 2
-let y = 0
-led.plot(x, 4)
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
     if (x > 0) {
         led.plot(x - 1, 4)
         led.unplot(x, 4)
-        x -= 1
-    }
-    
-})
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
-    if (x < 4) {
-        led.plot(x + 1, 4)
-        led.unplot(x, 4)
-        x += 1
+        x += 0 - 1
     }
     
 })
@@ -28,8 +16,8 @@ function enemy(posX: number) {
         y += 1
     } else {
         if (x == posX) {
-            basic.showString("GAME OVER")
-            control.reset()
+            basic.showString("GAME OVER", 75)
+            flag = false
         }
         
         y = 0
@@ -37,9 +25,37 @@ function enemy(posX: number) {
     
 }
 
-basic.forever(function on_forever() {
-    let posX = Math.floor(Math.random() * 10 % 5)
-    for (let _ = 0; _ < 5; _++) {
-        enemy(posX)
+input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
+    
+    basic.showNumber(3, 150)
+    basic.showNumber(2, 150)
+    basic.showNumber(1, 150)
+    basic.clearScreen()
+    flag = true
+})
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    if (x < 4) {
+        led.plot(x + 1, 4)
+        led.unplot(x, 4)
+        x += 1
     }
+    
+})
+let posX = 0
+let flag = false
+let y = 0
+let x = 0
+x = 2
+basic.showString("PRESS A and B", 75)
+basic.forever(function on_forever() {
+    
+    if (flag) {
+        led.plot(x, 4)
+        posX = Math.floor(Math.random() * 10 % 5)
+        for (let index = 0; index < 5; index++) {
+            enemy(posX)
+        }
+    }
+    
 })
